@@ -1,13 +1,12 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
-import useLogin from '../hooks/useLogin';
 
-function LoginForm() {
-  const { login, loading, error, user } = useLogin();
+function LoginForm({ onLogin, loading, error }) {
   const [formValues, setFormValues] = useState({ username: '', password: '' });
 
   const handleChange = (event) => {
@@ -20,7 +19,7 @@ function LoginForm() {
     if (!formValues.username || !formValues.password) {
       return;
     }
-    await login(formValues.username, formValues.password);
+    await onLogin(formValues.username, formValues.password);
   };
 
   return (
@@ -28,7 +27,6 @@ function LoginForm() {
       <Card.Body>
         <Card.Title className="mb-4">會員登入</Card.Title>
         {error && <Alert variant="danger">{error}</Alert>}
-        {user && <Alert variant="success">歡迎 {user.displayName}</Alert>}
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="username">
             <Form.Label>帳號</Form.Label>
@@ -67,5 +65,16 @@ function LoginForm() {
     </Card>
   );
 }
+
+LoginForm.propTypes = {
+  onLogin: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
+  error: PropTypes.string
+};
+
+LoginForm.defaultProps = {
+  loading: false,
+  error: null
+};
 
 export default LoginForm;
