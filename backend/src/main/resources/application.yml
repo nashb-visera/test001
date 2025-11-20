@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: ${ORACLE_URL}
+    username: ${ORACLE_USER}
+    password: ${ORACLE_PASSWORD}
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 2
+      max-active: 10
+      validation-query: SELECT 1 FROM DUAL
+  mail:
+    host: ${MAIL_HOST:localhost}
+    port: ${MAIL_PORT:25}
+    username: ${MAIL_USER:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+logging:
+  config: classpath:log4j2-spring.xml
+
+monitoring:
+  alert-threshold: ${ALERT_THRESHOLD:3}
